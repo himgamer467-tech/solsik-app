@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SolSik App</title>
+</head>
+<body>
+
+<h1>🌙 SolSik App</h1>
+
+<button onclick="gn()">Say GN 🌙</button>
+
+<p>Points: <span id="points"></span></p>
+<p>Streak: <span id="streak"></span></p>
+
+<script>
+  const wallet = "user1";
+
+  async function loadUser() {
+    const res = await fetch("http://localhost:3000/user", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ wallet })
+    });
+
+    const data = await res.json();
+    document.getElementById("points").innerText = data.points;
+    document.getElementById("streak").innerText = data.streak;
+  }
+
+  async function gn() {
+    const res = await fetch("http://localhost:3000/gn", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ wallet })
+    });
+
+    const data = await res.json();
+    alert(data.message);
+    loadUser();
+  }
+
+  loadUser();
+</script>
+
+</body>
+</html>
